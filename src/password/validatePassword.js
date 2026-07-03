@@ -1,4 +1,4 @@
-import {InvalidPasswordError} from "../errors/InvalidPasswordError.js";
+import InvalidPasswordError from "../errors/InvalidPasswordError.js";
 import { MAX_PASSWORD_LENGTH } from "../constants/password.js";
 
 export function validatePassword(password){
