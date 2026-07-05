@@ -1,4 +1,4 @@
-import {InvalidOptionsError} from "../errors/InvalidOptionsError.js";
+import InvalidOptionsError from "../errors/InvalidOptionsError.js";
 
 export function validateOptions(options){
  //to check the options , are they valid or not 
