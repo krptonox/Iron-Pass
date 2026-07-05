@@ -1,24 +1,20 @@
-# IronPass
+# IronPass 🔐
 
-Modern Password Security Toolkit for JavaScript.
+Modern password hashing library for Node.js built on PBKDF2.
 
 ## Features
 
-- Password Hashing
-- Password Verification
-- Password Audit
-- Breach Detection
-- Hash Migration
-- Password Strength Analysis
+- Secure PBKDF2 hashing
+- Configurable iterations
+- Salted password hashing
+- Structured encoded output
 
 ## Installation
 
-## Quick Start
+npm install ironpass
 
-## API
+## Usage
 
-## Security
+import { hash } from 'ironpass';
 
-## Contributing
-
-## License
+const hashed = await hash('password123');

@@ -1,14 +1,11 @@
+import { describe, it, expect } from 'vitest';
 import { normalizePassword } from '../src/password/normalizePassword.js';
 
-const testCase = normalizePassword("teste`", "NFC");
-console.log(testCase); 
+describe('normalizePassword()', () => {
+    it('should normalize unicode passwords correctly', () => {
+        const a = normalizePassword('testé');
+        const b = normalizePassword('teste\u0301');
 
-const testCase1 = normalizePassword("testé", "NFD");
-console.log(testCase1); 
-
-if(testCase === testCase1){
-    console.log("The two normalized passwords are equal.");
-}
-else{
-    console.log("The two normalized passwords are not equal.");
-}
+        expect(a).toBe(b);
+    });
+});

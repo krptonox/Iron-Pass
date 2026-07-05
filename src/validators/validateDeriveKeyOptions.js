@@ -1,16 +1,16 @@
-import InvalidOptionsError from "../errors/InvalidOptionsError.js";
+import InvalidOptionsError from '../errors/InvalidOptionsError.js';
 
 export function validateOptions(options){
  //to check the options , are they valid or not 
  const VALID_KEYS = [
-    "iterations",
-    "keyLength",
-    "digest"
+    'iterations',
+    'keyLength',
+    'digest'
 ];
 
  
-    if (!options || typeof options !== "object") {
-    throw new InvalidOptionsError("Options must be an object");
+    if (!options || typeof options !== 'object') {
+    throw new InvalidOptionsError('Options must be an object');
     }
     
  for(const key of Object.keys(options)){

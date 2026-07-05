@@ -1,31 +1,46 @@
 {
   "name": "ironpass",
   "version": "0.1.0",
-  "description": "Modern password security toolkit for Node.js",
-  "main": "./src/index.js",
-  "scripts": {
-    "test": "vitest",
-    "test:watch": "vitest --watch",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "check-format": "prettier --check ."
-  },
-  "keywords": [
-    "password",
-    "security",
-    "hash",
-    "bcrypt",
-    "argon2",
-    "pbkdf2"
-  ],
-  "author": "",
-  "license": "MIT",
+  "description": "Secure password hashing library for Node.js using PBKDF2.",
   "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
   "files": [
     "src"
   ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest --watch",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
+    "prepare": "npm run lint && npm run test"
+  },
+  "keywords": [
+    "password",
+    "password-hashing",
+    "security",
+    "authentication",
+    "pbkdf2",
+    "crypto",
+    "node",
+    "nodejs"
+  ],
+  "author": "Aryan Yadav",
+  "license": "MIT",
+ "repository": {
+  "type": "git",
+  "url": "git+https://github.com/krptonox/Iron-Pass.git"
+},
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "eslint": "^10.6.0",
+    "globals": "^17.7.0",
     "prettier": "^3.9.4",
     "vitest": "^4.1.9"
   }

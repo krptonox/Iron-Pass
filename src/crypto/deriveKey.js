@@ -25,6 +25,6 @@ export function deriveKey(password, salt, options = {
         }
 
         resolve(derivedKey);
-      })
-  })
+      });
+  });
 }

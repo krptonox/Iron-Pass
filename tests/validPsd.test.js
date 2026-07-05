@@ -1,4 +1,12 @@
-import { validatePassword } from "../src/password/validatePassword.js";
+import { describe, it, expect } from 'vitest';
+import { validatePassword } from '../src/validators/validatePassword.js';
 
-const validPasswords = validatePassword("jaiHo");
-console.log(validPasswords);
+describe('validatePassword()', () => {
+    it('should accept valid password', () => {
+        expect(() => validatePassword('jaiHo123')).not.toThrow();
+    });
+
+    it('should reject empty password', () => {
+        expect(() => validatePassword('')).toThrow();
+    });
+});
