@@ -2,16 +2,16 @@ import {
     DEFAULT_VERSION,
     DEFAULT_ALGORITHM,
     DEFAULT_DIGEST
-} from "../constants/defaults.js";
+} from '../constants/defaults.js';
 
-import InvalidHashError from "../errors/InvalidHashError.js";
+import InvalidHashError from '../errors/InvalidHashError.js';
 
 export function validateDecodeHash(decodedHash) {
    if (
-    typeof decodedHash !== "object" ||
+    typeof decodedHash !== 'object' ||
     decodedHash === null
     ) {
-    throw new InvalidHashError("Decoded hash must be an object.");
+    throw new InvalidHashError('Decoded hash must be an object.');
     }
 
     const { version, algorithm, digest, iterations, keyLength, salt, derivedKey } = decodedHash;

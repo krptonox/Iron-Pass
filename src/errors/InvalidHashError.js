@@ -1,7 +1,7 @@
 class InvalidHashError extends Error{
     constructor(message) {
         super(message);
-        this.name = "InvalidHashError";
+        this.name = 'InvalidHashError';
     }
 }
 
