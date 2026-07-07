@@ -1,6 +1,6 @@
 {
   "name": "ironpass",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Secure password hashing library for Node.js using PBKDF2.",
   "type": "module",
   "main": "./src/index.js",
@@ -30,10 +30,10 @@
   ],
   "author": "Aryan Yadav",
   "license": "MIT",
- "repository": {
-  "type": "git",
-  "url": "git+https://github.com/krptonox/Iron-Pass.git"
-},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krptonox/Iron-Pass.git"
+  },
   "engines": {
     "node": ">=18"
   },
