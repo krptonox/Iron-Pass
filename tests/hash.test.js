@@ -9,3 +9,4 @@ describe('hash()', () => {
         expect(result).toContain('v1$pbkdf2');
     });
 });
+
