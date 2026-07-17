@@ -12,3 +12,5 @@ export { default as InvalidPasswordError } from './errors/InvalidPasswordError.j
 export { default as InvalidOptionsError } from './errors/InvalidOptionsError.js';
 
 export { verifyAndRehash } from './core/verifyAndRehash.core.js';
+
+export { checkPasswordBreach } from './core/checkPasswordBreach.core.js';
