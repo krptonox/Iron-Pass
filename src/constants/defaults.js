@@ -19,3 +19,5 @@ export const MIN_KEY_LENGTH = 16;
 export const MAX_KEY_LENGTH = 64;
 
 export const MAX_RANDOM_BYTES_LENGTH = 1024;
+
+export const MAX_PASSWORD_LENGTH = 128;
