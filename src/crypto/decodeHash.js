@@ -1,18 +1,44 @@
-export function decodeHash(hashedPassword) {
+import { InvalidHashError } from '../errors/InvalidHashError.js';
 
-    if(!hashedPassword || typeof hashedPassword !== 'string') {
-        throw new Error('Invalid hashed password');
+export function decodeHash(hashedPassword){
+
+    if(typeof hashedPassword !== 'string'){
+        throw new InvalidHashError(
+            'Hashed password must be a string'
+        );
     }
 
-    const [version, algorithm, digest, iterations, keyLength, salt, derivedKey] = hashedPassword.split('$');
+    if(hashedPassword.length === 0){
+        throw new InvalidHashError(
+            'Hashed password cannot be empty'
+        );
+    }
 
-return {
-    version,
-    algorithm,
-    digest,
-    iterations: Number(iterations),
-    keyLength: Number(keyLength),
-    salt,
-    derivedKey
-};
+    const parts = hashedPassword.split('$');
+
+    if(parts.length !== 7){
+        throw new InvalidHashError(
+            'Invalid hash format'
+        );
+    }
+
+    const [
+        version,
+        algorithm,
+        digest,
+        iterations,
+        keyLength,
+        salt,
+        derivedKey
+    ] = parts;
+
+    return {
+        version,
+        algorithm,
+        digest,
+        iterations: Number(iterations),
+        keyLength: Number(keyLength),
+        salt,
+        derivedKey
+    };
 }
