@@ -1,8 +1,8 @@
-import { DEFAULT_ITERATIONS, DEFAULT_KEY_LENGTH, DEFAULT_DIGEST } from "../constants/defaults.js";
-import crypto from "node:crypto";
-import { validateOptions } from "../validators/validateDeriveKeyOptions.js";
-import { validatePassword } from "../validators/validatePassword.js";
-import { validateSalt } from "../validators/validateSalt.js";
+import { DEFAULT_ITERATIONS, DEFAULT_KEY_LENGTH, DEFAULT_DIGEST } from '../constants/defaults.js';
+import crypto from 'node:crypto';
+import { validateOptions } from '../validators/validateDeriveKeyOptions.js';
+import { validatePassword } from '../validators/validatePassword.js';
+import { validateSalt } from '../validators/validateSalt.js';
 
 export function deriveKey(password, salt, options = {}) {
   validatePassword(password);

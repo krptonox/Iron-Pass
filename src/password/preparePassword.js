@@ -1,5 +1,5 @@
-import { normalizePassword } from "./normalizePassword.js";
-import { validatePassword } from "../validators/validatePassword.js";
+import { normalizePassword } from './normalizePassword.js';
+import { validatePassword } from '../validators/validatePassword.js';
 
 export function preparePassword(password) {
   const normalizedPassword = normalizePassword(password);

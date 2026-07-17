@@ -1,6 +1,6 @@
-import { verifyPassword } from "./verify.core.js";
-import { needsRehash } from "./needsRehash.core.js";
-import { hash } from "./hash.core.js";
+import { verifyPassword } from './verify.core.js';
+import { needsRehash } from './needsRehash.core.js';
+import { hash } from './hash.core.js';
 
 export async function verifyAndRehash(password, hashedPassword) {
   const valid = await verifyPassword(password, hashedPassword);

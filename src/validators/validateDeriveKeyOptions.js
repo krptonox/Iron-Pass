@@ -1,17 +1,17 @@
-import InvalidOptionsError from "../errors/InvalidOptionsError.js";
+import InvalidOptionsError from '../errors/InvalidOptionsError.js';
 
 import {
   MIN_ITERATIONS,
   MAX_ITERATIONS,
   MIN_KEY_LENGTH,
   MAX_KEY_LENGTH,
-} from "../constants/defaults.js";
+} from '../constants/defaults.js';
 
 export function validateOptions(options) {
-  const VALID_KEYS = ["iterations", "keyLength", "digest"];
+  const VALID_KEYS = ['iterations', 'keyLength', 'digest'];
 
-  if (!options || typeof options !== "object") {
-    throw new InvalidOptionsError("Options must be an object");
+  if (!options || typeof options !== 'object') {
+    throw new InvalidOptionsError('Options must be an object');
   }
 
   for (const key of Object.keys(options)) {
@@ -22,7 +22,7 @@ export function validateOptions(options) {
 
     // Validate iterations
     if (
-      key === "iterations" &&
+      key === 'iterations' &&
       (!Number.isInteger(options[key]) ||
         options[key] < MIN_ITERATIONS ||
         options[key] > MAX_ITERATIONS)
@@ -34,7 +34,7 @@ export function validateOptions(options) {
 
     // Validate keyLength
     if (
-      key === "keyLength" &&
+      key === 'keyLength' &&
       (!Number.isInteger(options[key]) ||
         options[key] < MIN_KEY_LENGTH ||
         options[key] > MAX_KEY_LENGTH)
@@ -45,7 +45,7 @@ export function validateOptions(options) {
     }
 
     // Validate digest
-    if (key === "digest" && !["sha256", "sha512"].includes(options[key])) {
+    if (key === 'digest' && !['sha256', 'sha512'].includes(options[key])) {
       throw new InvalidOptionsError(
         `Invalid value for option ${key}. Must be either 'sha256' or 'sha512'.`
       );

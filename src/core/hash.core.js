@@ -1,10 +1,10 @@
-import { generateSalt } from "../crypto/generateSalt.js";
+import { generateSalt } from '../crypto/generateSalt.js';
 
-import { deriveKey } from "../crypto/deriveKey.js";
+import { deriveKey } from '../crypto/deriveKey.js';
 
-import { encodeHash } from "../crypto/encodeHash.js";
+import { encodeHash } from '../crypto/encodeHash.js';
 
-import { preparePassword } from "../password/preparePassword.js";
+import { preparePassword } from '../password/preparePassword.js';
 
 export async function hash(password, options = {}) {
   const preparedPassword = preparePassword(password);

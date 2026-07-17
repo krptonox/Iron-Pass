@@ -1,7 +1,7 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from 'vitest';
 
-import { encodeHash } from "../src/crypto/encodeHash.js";
-import { decodeHash } from "../src/crypto/decodeHash.js";
+import { encodeHash } from '../src/crypto/encodeHash.js';
+import { decodeHash } from '../src/crypto/decodeHash.js';
 
 import {
   DEFAULT_VERSION,
@@ -9,13 +9,13 @@ import {
   DEFAULT_DIGEST,
   DEFAULT_ITERATIONS,
   DEFAULT_KEY_LENGTH,
-} from "../src/constants/defaults.js";
+} from '../src/constants/defaults.js';
 
-describe("IronPass Hash Format", () => {
-  it("should encode and decode hash metadata correctly", () => {
+describe('IronPass Hash Format', () => {
+  it('should encode and decode hash metadata correctly', () => {
     const derivedKey = Buffer.alloc(DEFAULT_KEY_LENGTH, 1);
 
-    const salt = "00112233445566778899aabbccddeeff";
+    const salt = '00112233445566778899aabbccddeeff';
 
     const encodedHash = encodeHash(derivedKey, salt);
 
@@ -33,19 +33,19 @@ describe("IronPass Hash Format", () => {
 
     expect(decodedHash.salt).toBe(salt);
 
-    expect(decodedHash.derivedKey).toBe(derivedKey.toString("hex"));
+    expect(decodedHash.derivedKey).toBe(derivedKey.toString('hex'));
   });
 
-  it("should preserve custom parameters through encode and decode", () => {
+  it('should preserve custom parameters through encode and decode', () => {
     const options = {
       iterations: 100000,
       keyLength: 16,
-      digest: "sha512",
+      digest: 'sha512',
     };
 
     const derivedKey = Buffer.alloc(options.keyLength, 1);
 
-    const salt = "00112233445566778899aabbccddeeff";
+    const salt = '00112233445566778899aabbccddeeff';
 
     const encodedHash = encodeHash(derivedKey, salt, options);
 
@@ -58,20 +58,20 @@ describe("IronPass Hash Format", () => {
     expect(decodedHash.digest).toBe(options.digest);
   });
 
-  it("should produce exactly seven hash fields", () => {
+  it('should produce exactly seven hash fields', () => {
     const derivedKey = Buffer.alloc(DEFAULT_KEY_LENGTH, 1);
 
-    const salt = "00112233445566778899aabbccddeeff";
+    const salt = '00112233445566778899aabbccddeeff';
 
     const encodedHash = encodeHash(derivedKey, salt);
 
-    expect(encodedHash.split("$")).toHaveLength(7);
+    expect(encodedHash.split('$')).toHaveLength(7);
   });
 
-  it("should encode hashes using the current version", () => {
+  it('should encode hashes using the current version', () => {
     const derivedKey = Buffer.alloc(DEFAULT_KEY_LENGTH, 1);
 
-    const salt = "00112233445566778899aabbccddeeff";
+    const salt = '00112233445566778899aabbccddeeff';
 
     const encodedHash = encodeHash(derivedKey, salt);
 

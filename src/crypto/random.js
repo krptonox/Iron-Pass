@@ -1,11 +1,11 @@
-import crypto from "node:crypto";
+import crypto from 'node:crypto';
 
-import { InvalidLengthError } from "../errors/InvalidLengthError.js";
+import { InvalidLengthError } from '../errors/InvalidLengthError.js';
 
-import { MAX_RANDOM_BYTES_LENGTH } from "../constants/defaults.js";
+import { MAX_RANDOM_BYTES_LENGTH } from '../constants/defaults.js';
 
 export function randomBytes(length) {
-  if (typeof length !== "number" || !Number.isInteger(length) || length <= 0) {
+  if (typeof length !== 'number' || !Number.isInteger(length) || length <= 0) {
     throw new InvalidLengthError();
   }
 

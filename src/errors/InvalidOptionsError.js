@@ -1,7 +1,7 @@
 class InvalidOptionsError extends Error {
-  constructor(message = "Invalid options provided. Please check the options and try again.") {
+  constructor(message = 'Invalid options provided. Please check the options and try again.') {
     super(message);
-    this.name = "InvalidOptionsError";
+    this.name = 'InvalidOptionsError';
   }
 }
 

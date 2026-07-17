@@ -1,5 +1,5 @@
-import { decodeHash } from "../crypto/decodeHash.js";
-import { validateDecodeHash } from "../validators/validateDecodeHash.js";
+import { decodeHash } from '../crypto/decodeHash.js';
+import { validateDecodeHash } from '../validators/validateDecodeHash.js';
 
 import {
   DEFAULT_VERSION,
@@ -7,7 +7,7 @@ import {
   DEFAULT_DIGEST,
   DEFAULT_ITERATIONS,
   DEFAULT_KEY_LENGTH,
-} from "../constants/defaults.js";
+} from '../constants/defaults.js';
 
 export function needsRehash(hashedPassword) {
   const decodedHash = decodeHash(hashedPassword);

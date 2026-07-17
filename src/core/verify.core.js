@@ -1,9 +1,9 @@
-import { decodeHash } from "../crypto/decodeHash.js";
-import { deriveKey } from "../crypto/deriveKey.js";
-import { validateDecodeHash } from "../validators/validateDecodeHash.js";
-import { preparePassword } from "../password/preparePassword.js";
+import { decodeHash } from '../crypto/decodeHash.js';
+import { deriveKey } from '../crypto/deriveKey.js';
+import { validateDecodeHash } from '../validators/validateDecodeHash.js';
+import { preparePassword } from '../password/preparePassword.js';
 
-import { timingSafeEqual } from "node:crypto";
+import { timingSafeEqual } from 'node:crypto';
 
 export async function verifyPassword(password, hashedPassword) {
   // Prepare, normalize, and validate password
@@ -23,7 +23,7 @@ export async function verifyPassword(password, hashedPassword) {
   });
 
   // Convert stored derived key from hex to Buffer
-  const storedDerivedKey = Buffer.from(decodedHash.derivedKey, "hex");
+  const storedDerivedKey = Buffer.from(decodedHash.derivedKey, 'hex');
 
   // timingSafeEqual requires equal-length buffers
   if (derivedKey.length !== storedDerivedKey.length) {
