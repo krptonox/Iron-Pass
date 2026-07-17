@@ -63,6 +63,49 @@ describe('checkPasswordBreach', () => {
     expect(fetchBreachRange).toHaveBeenCalledWith(prefix);
   });
 
+  it('should safely ignore a malformed breach count', async () => {
+    const password = 'IronPass@123';
+
+    const { suffix } = createPasswordFingerprint(password);
+
+    fetchBreachRange.mockResolvedValue(`${suffix}:NOT_A_NUMBER`);
+
+    const result = await checkPasswordBreach(password);
+
+    expect(result).toEqual({
+      breached: false,
+      count: 0,
+    });
+  });
+
+  it('should safely ignore malformed response lines', async () => {
+    fetchBreachRange.mockResolvedValue(
+      ['INVALID_LINE', 'ABC:100', '', 'NOTHEXNOTHEXNOTHEXNOTHEXNOTHEXNOTHEXNOT:50'].join('\r\n')
+    );
+
+    const result = await checkPasswordBreach('IronPass@123');
+
+    expect(result).toEqual({
+      breached: false,
+      count: 0,
+    });
+  });
+
+  it('should ignore unsafe breach counts', async () => {
+    const password = 'IronPass@123';
+
+    const { suffix } = createPasswordFingerprint(password);
+
+    fetchBreachRange.mockResolvedValue(`${suffix}:999999999999999999999999`);
+
+    const result = await checkPasswordBreach(password);
+
+    expect(result).toEqual({
+      breached: false,
+      count: 0,
+    });
+  });
+
   it('should correctly handle Unicode-equivalent passwords', async () => {
     const composed = '\u00E9';
     const decomposed = 'e\u0301';

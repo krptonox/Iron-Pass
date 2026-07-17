@@ -80,6 +80,30 @@ describe('fetchBreachRange', () => {
     await expect(fetchBreachRange('ABCDE')).rejects.toThrow(BreachCheckError);
   });
 
+  it('should reject when the breach request times out', async () => {
+    vi.useFakeTimers();
+
+    vi.spyOn(globalThis, 'fetch').mockImplementation(
+      (_url, options) =>
+        new Promise((_resolve, reject) => {
+          options.signal.addEventListener('abort', () => {
+            const error = new Error('Request aborted');
+            error.name = 'AbortError';
+            reject(error);
+          });
+        })
+    );
+
+    const request = fetchBreachRange('ABCDE');
+
+    // Attach the rejection assertion BEFORE triggering the timeout.
+    const expectation = expect(request).rejects.toThrow('Breach check request timed out');
+
+    await vi.advanceTimersByTimeAsync(5000);
+
+    await expectation;
+  });
+
   it('should handle network failures', async () => {
     vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('Network failure'));
 
