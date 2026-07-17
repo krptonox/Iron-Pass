@@ -1,4 +1,4 @@
-import { InvalidHashError } from '../errors/InvalidHashError.js';
+import InvalidHashError from '../errors/InvalidHashError.js';
 
 export function decodeHash(hashedPassword){
 

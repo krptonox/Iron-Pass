@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest';
 
 import { hash } from '../../src/core/hash.core.js';
-
 import { verifyPassword } from '../../src/core/verify.core.js';
+
+import InvalidHashError from '../../src/errors/InvalidHashError.js';
 
 
 describe('IronPass Verification Security', () => {
@@ -22,7 +23,9 @@ describe('IronPass Verification Security', () => {
 
 
     it('should reject an incorrect password', async () => {
-        const hashedPassword = await hash('CorrectPassword123');
+        const hashedPassword = await hash(
+            'CorrectPassword123'
+        );
 
         const result = await verifyPassword(
             'WrongPassword123',
@@ -51,7 +54,7 @@ describe('IronPass Verification Security', () => {
     it('should reject an empty stored hash', async () => {
         await expect(
             verifyPassword('password', '')
-        ).rejects.toThrow();
+        ).rejects.toThrow(InvalidHashError);
     });
 
 
@@ -60,8 +63,11 @@ describe('IronPass Verification Security', () => {
             'v1$pbkdf2$sha256';
 
         await expect(
-            verifyPassword('password', malformedHash)
-        ).rejects.toThrow();
+            verifyPassword(
+                'password',
+                malformedHash
+            )
+        ).rejects.toThrow(InvalidHashError);
     });
 
 
@@ -70,8 +76,11 @@ describe('IronPass Verification Security', () => {
             'v1$pbkdf2$sha256$300000$32$aabb$ccdd$EXTRA';
 
         await expect(
-            verifyPassword('password', malformedHash)
-        ).rejects.toThrow();
+            verifyPassword(
+                'password',
+                malformedHash
+            )
+        ).rejects.toThrow(InvalidHashError);
     });
 
 
@@ -80,8 +89,11 @@ describe('IronPass Verification Security', () => {
             'v999$pbkdf2$sha256$300000$32$aabb$ccdd';
 
         await expect(
-            verifyPassword('password', malformedHash)
-        ).rejects.toThrow();
+            verifyPassword(
+                'password',
+                malformedHash
+            )
+        ).rejects.toThrow(InvalidHashError);
     });
 
 
@@ -90,8 +102,11 @@ describe('IronPass Verification Security', () => {
             'v1$unknown$sha256$300000$32$aabb$ccdd';
 
         await expect(
-            verifyPassword('password', malformedHash)
-        ).rejects.toThrow();
+            verifyPassword(
+                'password',
+                malformedHash
+            )
+        ).rejects.toThrow(InvalidHashError);
     });
 
 
@@ -100,8 +115,11 @@ describe('IronPass Verification Security', () => {
             'v1$pbkdf2$sha256$300000$32$NOTHEX$ccdd';
 
         await expect(
-            verifyPassword('password', malformedHash)
-        ).rejects.toThrow();
+            verifyPassword(
+                'password',
+                malformedHash
+            )
+        ).rejects.toThrow(InvalidHashError);
     });
 
 
@@ -110,8 +128,11 @@ describe('IronPass Verification Security', () => {
             'v1$pbkdf2$sha256$300000$32$aabb$NOTHEX';
 
         await expect(
-            verifyPassword('password', malformedHash)
-        ).rejects.toThrow();
+            verifyPassword(
+                'password',
+                malformedHash
+            )
+        ).rejects.toThrow(InvalidHashError);
     });
 
 
@@ -120,8 +141,11 @@ describe('IronPass Verification Security', () => {
             'v1$pbkdf2$sha256$999999999$32$aabb$ccdd';
 
         await expect(
-            verifyPassword('password', malformedHash)
-        ).rejects.toThrow();
+            verifyPassword(
+                'password',
+                malformedHash
+            )
+        ).rejects.toThrow(InvalidHashError);
     });
 
 
@@ -130,8 +154,11 @@ describe('IronPass Verification Security', () => {
             'v1$pbkdf2$sha256$300000$999999$aabb$ccdd';
 
         await expect(
-            verifyPassword('password', malformedHash)
-        ).rejects.toThrow();
+            verifyPassword(
+                'password',
+                malformedHash
+            )
+        ).rejects.toThrow(InvalidHashError);
     });
 
 });
