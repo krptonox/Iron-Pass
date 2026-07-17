@@ -37,7 +37,7 @@
     "url": "git+https://github.com/krptonox/Iron-Pass.git"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
