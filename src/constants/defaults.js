@@ -17,3 +17,5 @@ export const MAX_ITERATIONS = 1_000_000;
 export const MIN_KEY_LENGTH = 16;
 
 export const MAX_KEY_LENGTH = 64;
+
+export const MAX_RANDOM_BYTES_LENGTH = 1024;

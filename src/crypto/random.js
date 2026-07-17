@@ -1,20 +1,27 @@
-/**
- * Generate cryptographically secure random bytes.
- *
- * @param {number} length
- * @returns {Buffer}
- */
-
-
 import crypto from 'node:crypto';
-import {InvalidLengthError} from '../errors/InvalidLengthError.js';
+
+import { InvalidLengthError } from '../errors/InvalidLengthError.js';
+
+import {
+    MAX_RANDOM_BYTES_LENGTH
+} from '../constants/defaults.js';
+
 
 export function randomBytes(length){
-    if(typeof length !== 'number' || length <= 0 || !Number.isInteger(length)){
+
+    if(
+        typeof length !== 'number' ||
+        !Number.isInteger(length) ||
+        length <= 0
+    ){
         throw new InvalidLengthError();
     }
 
-    const buffer = crypto.randomBytes(length);
+    if(length > MAX_RANDOM_BYTES_LENGTH) {
+        throw new InvalidLengthError(
+            `Length cannot exceed ${MAX_RANDOM_BYTES_LENGTH} bytes.`
+        );
+    }
 
-    return buffer;
+    return crypto.randomBytes(length);
 }
