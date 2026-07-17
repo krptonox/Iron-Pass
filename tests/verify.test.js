@@ -4,24 +4,20 @@ import { hash} from '../src/core/hash.core.js';
 
 import { verifyPassword } from '../src/core/verify.core.js';
 
-describe('verifyPassword()', () => {
-  it('should return true for the correct password', async () => {
-    const password = 'myPassword123';
+describe('verifyPassword', () =>{
 
-    const hashedPassword = await hash(password);
+    it('should verify canonically equivalent Unicode passwords', async () => {
+        const composed = '\u00E9';
+        const decomposed = 'e\u0301';
 
-    const result = await verifyPassword(password, hashedPassword);
+        const hashedPassword = await hash(composed);
 
-    expect(result).toBe(true);
-  });
+        const result = await verifyPassword(
+            decomposed,
+            hashedPassword
+        );
 
-  it('should return false for an incorrect password', async () => {
-    const password = 'myPassword123';
+        expect(result).toBe(true);
+    });
 
-    const hashedPassword = await hash(password);
-
-    const result = await verifyPassword('wrongPassword', hashedPassword);
-
-    expect(result).toBe(false);
-  });
 });

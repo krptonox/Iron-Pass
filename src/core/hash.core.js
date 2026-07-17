@@ -1,25 +1,28 @@
-import { normalizePassword } from '../password/normalizePassword.js';
-
-import { validatePassword } from '../validators/validatePassword.js';
-
 import { generateSalt } from '../crypto/generateSalt.js';
 
 import { deriveKey } from '../crypto/deriveKey.js';
 
 import { encodeHash } from '../crypto/encodeHash.js';
 
+import { preparePassword } from '../password/preparePassword.js';
 
 export async function hash(password, options = {}){
-    
-    const normalizedPassword = normalizePassword(password);
 
-    const validatedPassword = validatePassword(normalizedPassword);
+    const preparedPassword = preparePassword(password);
 
     const salt = generateSalt();
 
-    const  derivedKey = await deriveKey(validatedPassword, salt, options);
+    const derivedKey = await deriveKey(
+        preparedPassword,
+        salt,
+        options
+    );
 
-    const encodedHash = encodeHash(derivedKey, salt, options);
+    const encodedHash = encodeHash(
+        derivedKey,
+        salt,
+        options
+    );
 
     return encodedHash;
 }

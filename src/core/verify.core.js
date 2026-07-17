@@ -1,17 +1,40 @@
-//TO DO
 import { decodeHash } from '../crypto/decodeHash.js';
+
 import { encodeHash } from '../crypto/encodeHash.js';
+
 import { deriveKey } from '../crypto/deriveKey.js';
+
 import { validateDecodeHash } from '../validators/validateDecodeHash.js';
 
-export async function verifyPassword(password, hashedPassword) {
-    const DecodedHash = decodeHash(hashedPassword);
+import { preparePassword } from '../password/preparePassword.js';
 
-    validateDecodeHash(DecodedHash);
-    
-    const derivedKey = await deriveKey(password,DecodedHash.salt, { iterations: DecodedHash.iterations, keyLength: DecodedHash.keyLength, digest: DecodedHash.digest });
+export async function verifyPassword(password, hashedPassword){
 
-    const EncodedHash = encodeHash(derivedKey, DecodedHash.salt, { iterations: DecodedHash.iterations, keyLength: DecodedHash.keyLength, digest: DecodedHash.digest });
-    
-    return EncodedHash === hashedPassword;
+    const preparedPassword = preparePassword(password);
+
+    const decodedHash = decodeHash(hashedPassword);
+
+    validateDecodeHash(decodedHash);
+
+    const derivedKey = await deriveKey(
+        preparedPassword,
+        decodedHash.salt,
+        {
+            iterations: decodedHash.iterations,
+            keyLength: decodedHash.keyLength,
+            digest: decodedHash.digest
+        }
+    );
+
+    const encodedHash = encodeHash(
+        derivedKey,
+        decodedHash.salt,
+        {
+            iterations: decodedHash.iterations,
+            keyLength: decodedHash.keyLength,
+            digest: decodedHash.digest
+        }
+    );
+
+    return encodedHash === hashedPassword;
 }
