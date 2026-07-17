@@ -1,122 +1,88 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from "vitest";
 
-import { hash } from '../../src/core/hash.core.js';
-import { verifyPassword } from '../../src/core/verify.core.js';
+import { hash } from "../../src/core/hash.core.js";
+import { verifyPassword } from "../../src/core/verify.core.js";
 
-import InvalidHashError from '../../src/errors/InvalidHashError.js';
+import InvalidHashError from "../../src/errors/InvalidHashError.js";
 
+describe("IronPass Hash Security", () => {
+  it("should generate different hashes for the same password", async () => {
+    const password = "IronPass@123";
 
-describe('IronPass Hash Security', () => {
+    const hashOne = await hash(password);
+    const hashTwo = await hash(password);
 
-    it('should generate different hashes for the same password', async () => {
-        const password = 'IronPass@123';
+    expect(hashOne).not.toBe(hashTwo);
+  });
 
-        const hashOne = await hash(password);
-        const hashTwo = await hash(password);
+  it("should verify both independently salted hashes", async () => {
+    const password = "IronPass@123";
 
-        expect(hashOne).not.toBe(hashTwo);
-    });
+    const hashOne = await hash(password);
+    const hashTwo = await hash(password);
 
+    expect(await verifyPassword(password, hashOne)).toBe(true);
 
-    it('should verify both independently salted hashes', async () => {
-        const password = 'IronPass@123';
+    expect(await verifyPassword(password, hashTwo)).toBe(true);
+  });
 
-        const hashOne = await hash(password);
-        const hashTwo = await hash(password);
+  it("should reject a wrong password against a valid hash", async () => {
+    const hashedPassword = await hash("CorrectPassword123");
 
-        expect(
-            await verifyPassword(password, hashOne)
-        ).toBe(true);
+    const result = await verifyPassword("WrongPassword123", hashedPassword);
 
-        expect(
-            await verifyPassword(password, hashTwo)
-        ).toBe(true);
-    });
+    expect(result).toBe(false);
+  });
 
+  it("should reject a hash with a tampered derived key", async () => {
+    const password = "IronPass@123";
 
-    it('should reject a wrong password against a valid hash', async () => {
-        const hashedPassword = await hash(
-            'CorrectPassword123'
-        );
+    const hashedPassword = await hash(password);
 
-        const result = await verifyPassword(
-            'WrongPassword123',
-            hashedPassword
-        );
+    const parts = hashedPassword.split("$");
 
-        expect(result).toBe(false);
-    });
+    const derivedKey = parts[6];
 
+    const firstCharacter = derivedKey[0] === "a" ? "b" : "a";
 
-    it('should reject a hash with a tampered derived key', async () => {
-        const password = 'IronPass@123';
+    parts[6] = firstCharacter + derivedKey.slice(1);
 
-        const hashedPassword = await hash(password);
+    const tamperedHash = parts.join("$");
 
-        const parts = hashedPassword.split('$');
+    const result = await verifyPassword(password, tamperedHash);
 
-        const derivedKey = parts[6];
+    expect(result).toBe(false);
+  });
 
-        const firstCharacter =
-            derivedKey[0] === 'a' ? 'b' : 'a';
+  it("should reject a hash with a tampered salt", async () => {
+    const password = "IronPass@123";
 
-        parts[6] =
-            firstCharacter + derivedKey.slice(1);
+    const hashedPassword = await hash(password);
 
-        const tamperedHash = parts.join('$');
+    const parts = hashedPassword.split("$");
 
-        const result = await verifyPassword(
-            password,
-            tamperedHash
-        );
+    const salt = parts[5];
 
-        expect(result).toBe(false);
-    });
+    const firstCharacter = salt[0] === "a" ? "b" : "a";
 
+    parts[5] = firstCharacter + salt.slice(1);
 
-    it('should reject a hash with a tampered salt', async () => {
-        const password = 'IronPass@123';
+    const tamperedHash = parts.join("$");
 
-        const hashedPassword = await hash(password);
+    const result = await verifyPassword(password, tamperedHash);
 
-        const parts = hashedPassword.split('$');
+    expect(result).toBe(false);
+  });
 
-        const salt = parts[5];
+  it("should reject tampered algorithm metadata", async () => {
+    const hashedPassword = await hash("IronPass@123");
 
-        const firstCharacter =
-            salt[0] === 'a' ? 'b' : 'a';
+    const parts = hashedPassword.split("$");
 
-        parts[5] =
-            firstCharacter + salt.slice(1);
+    parts[1] = "unknown";
 
-        const tamperedHash = parts.join('$');
+    const tamperedHash = parts.join("$");
 
-        const result = await verifyPassword(
-            password,
-            tamperedHash
-        );
-
-        expect(result).toBe(false);
-    });
-
-
-    it('should reject tampered algorithm metadata', async () => {
-        const hashedPassword = await hash(
-            'IronPass@123'
-        );
-
-        const parts = hashedPassword.split('$');
-
-        parts[1] = 'unknown';
-
-        const tamperedHash = parts.join('$');
-
-        await expect(
-            verifyPassword(
-                'IronPass@123',
-                tamperedHash
-            )
-        ).rejects.toThrow(InvalidHashError);
-    });
-
+    await expect(verifyPassword("IronPass@123", tamperedHash)).rejects.toThrow(InvalidHashError);
+  });
 });

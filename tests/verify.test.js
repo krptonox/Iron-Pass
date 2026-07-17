@@ -1,23 +1,18 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from "vitest";
 
-import { hash} from '../src/core/hash.core.js';
+import { hash } from "../src/core/hash.core.js";
 
-import { verifyPassword } from '../src/core/verify.core.js';
+import { verifyPassword } from "../src/core/verify.core.js";
 
-describe('verifyPassword', () =>{
+describe("verifyPassword", () => {
+  it("should verify canonically equivalent Unicode passwords", async () => {
+    const composed = "\u00E9";
+    const decomposed = "e\u0301";
 
-    it('should verify canonically equivalent Unicode passwords', async () => {
-        const composed = '\u00E9';
-        const decomposed = 'e\u0301';
+    const hashedPassword = await hash(composed);
 
-        const hashedPassword = await hash(composed);
+    const result = await verifyPassword(decomposed, hashedPassword);
 
-        const result = await verifyPassword(
-            decomposed,
-            hashedPassword
-        );
-
-        expect(result).toBe(true);
-    });
-
+    expect(result).toBe(true);
+  });
 });

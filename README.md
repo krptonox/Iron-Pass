@@ -21,7 +21,6 @@ const hashed = await hash('password123');
 
 const hashed = await hash('password123');
 
-
 import { verifyPassword } from 'ironpass';
 
 const verifiedPassword = await verifyPassword('password123',hashed);
