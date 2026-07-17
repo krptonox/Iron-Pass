@@ -5,8 +5,58 @@ import { verifyPassword } from '../../src/core/verify.core.js';
 
 import InvalidHashError from '../../src/errors/InvalidHashError.js';
 
+import InvalidPasswordError from '../../src/errors/InvalidPasswordError.js';
+
+import {
+    MAX_PASSWORD_LENGTH
+} from '../../src/constants/defaults.js';
+
 
 describe('IronPass Verification Security', () => {
+
+    it('should accept password at maximum length', async () => {
+    const password = 'a'.repeat(
+        MAX_PASSWORD_LENGTH
+    );
+
+    const hashedPassword = await hash(password);
+
+    expect(
+        await verifyPassword(
+            password,
+            hashedPassword
+        )
+    ).toBe(true);
+});
+
+
+it('should reject password above maximum length when hashing', async () => {
+    const password = 'a'.repeat(
+        MAX_PASSWORD_LENGTH + 1
+    );
+
+    await expect(
+        hash(password)
+    ).rejects.toThrow(InvalidPasswordError);
+});
+
+
+it('should reject password above maximum length when verifying', async () => {
+    const hashedPassword = await hash(
+        'IronPass@123'
+    );
+
+    const oversizedPassword = 'a'.repeat(
+        MAX_PASSWORD_LENGTH + 1
+    );
+
+    await expect(
+        verifyPassword(
+            oversizedPassword,
+            hashedPassword
+        )
+    ).rejects.toThrow(InvalidPasswordError);
+});
 
     it('should verify the correct password', async () => {
         const password = 'IronPass@123';
