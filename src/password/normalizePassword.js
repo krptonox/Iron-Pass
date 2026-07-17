@@ -1,19 +1,32 @@
 import { InvalidNormalizationFormError } from '../errors/InvalidNormalizationFormError.js';
 
+import InvalidPasswordError from '../errors/InvalidPasswordError.js';
 
-const VALID_NORMALIZATION_FORMS = ['NFC','NFD','NFKC','NFKD'];
+
+const VALID_NORMALIZATION_FORMS = [
+    'NFC',
+    'NFD',
+    'NFKC',
+    'NFKD'
+];
 
 
-export function normalizePassword(password,form = 'NFC'){
+export function normalizePassword(
+    password,
+    form = 'NFC'
+){
+
     if(typeof password !== 'string'){
-        throw new TypeError('Password must be a string.');
+        throw new InvalidPasswordError(
+            'Password must be a string'
+        );
     }
 
     if(!VALID_NORMALIZATION_FORMS.includes(form)){
-        throw new InvalidNormalizationFormError('Invalid normalization form');
+        throw new InvalidNormalizationFormError(
+            'Invalid normalization form'
+        );
     }
 
-    const normalizedPassword = password.normalize(form);
-
-    return normalizedPassword;
+    return password.normalize(form);
 }
