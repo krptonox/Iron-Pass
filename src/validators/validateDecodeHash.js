@@ -1,7 +1,11 @@
 import {
     DEFAULT_VERSION,
     DEFAULT_ALGORITHM,
-    DEFAULT_DIGEST
+    DEFAULT_DIGEST,
+    MIN_ITERATIONS,
+    MAX_ITERATIONS,
+    MIN_KEY_LENGTH,
+    MAX_KEY_LENGTH
 } from '../constants/defaults.js';
 
 import InvalidHashError from '../errors/InvalidHashError.js';
@@ -63,24 +67,45 @@ export function validateDecodeHash(decodedHash){
     }
 
 
-    if(
-        !Number.isInteger(iterations) ||
-        iterations <= 0
-    ){
-        throw new InvalidHashError(
-            `Invalid iterations: ${iterations}. Expected a positive integer`
-        );
-    }
+    // Validate iterations type and positive value
+if(
+    !Number.isInteger(iterations) ||
+    iterations <= 0
+){
+    throw new InvalidHashError(
+        `Invalid iterations: ${iterations}. Expected a positive integer`
+    );
+}
 
+// Validate iteration security/resource boundaries
+if(
+    iterations < MIN_ITERATIONS ||
+    iterations > MAX_ITERATIONS
+){
+    throw new InvalidHashError(
+        `Iterations must be between ${MIN_ITERATIONS} and ${MAX_ITERATIONS}`
+    );
+}
 
-    if(
-        !Number.isInteger(keyLength) ||
-        keyLength <= 0
-    ){
-        throw new InvalidHashError(
-            `Invalid key length: ${keyLength}. Expected a positive integer`
-        );
-    }
+// Validate keyLength type and positive value
+if(
+    !Number.isInteger(keyLength) ||
+    keyLength <= 0
+){
+    throw new InvalidHashError(
+        `Invalid key length: ${keyLength}. Expected a positive integer`
+    );
+}
+
+// Validate keyLength resource boundaries
+if(
+    keyLength < MIN_KEY_LENGTH ||
+    keyLength > MAX_KEY_LENGTH
+){
+    throw new InvalidHashError(
+        `Key length must be between ${MIN_KEY_LENGTH} and ${MAX_KEY_LENGTH}`
+    );
+}
 
     // Salt must be valid hexadecimal
     if(!isValidHex(salt)){

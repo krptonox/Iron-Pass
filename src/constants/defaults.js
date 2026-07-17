@@ -9,3 +9,11 @@ export const DEFAULT_DIGEST = 'sha256';
 export const DEFAULT_ALGORITHM = 'pbkdf2'; 
 
 export const DEFAULT_VERSION = 'v1';
+
+export const MIN_ITERATIONS = 100_000;
+
+export const MAX_ITERATIONS = 1_000_000;
+
+export const MIN_KEY_LENGTH = 16;
+
+export const MAX_KEY_LENGTH = 64;
