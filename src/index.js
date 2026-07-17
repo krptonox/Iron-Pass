@@ -10,9 +10,6 @@ export { verifyAndRehash } from './core/verifyAndRehash.core.js';
 
 export { checkPasswordBreach } from './core/checkPasswordBreach.core.js';
 
-
-
-
 export { default as InvalidHashError } from './errors/InvalidHashError.js';
 
 export { default as InvalidPasswordError } from './errors/InvalidPasswordError.js';
